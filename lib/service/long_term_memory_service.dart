@@ -74,9 +74,8 @@ class LongTermMemoryService {
 
   String? convertToValidJson(String data) {
     // Replace single quotes with double quotes for valid JSON format
-    String jsonData = data.replaceAllMapped(RegExp(r"(\\*)'"), (match) {
-      return match.group(1)! + '\"';
-    });
+    String jsonData = data.replaceAll('\\', '');
+
     try {
       json.decode(jsonData);
     } catch (e) {

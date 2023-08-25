@@ -27,56 +27,6 @@ class AiService {
     return tokens.length;
   }
 
-  Future<String> discriminateResults({
-    required String question,
-    required String correctAnswer,
-    required String agentAnswer,
-  }) async {
-    final opening = """
-User
-You are a highly accurate, Artificial Intelligence that prides itself in the ability to score appropriately whether AgentResponse is accurate and falls within AgentRules. 
-
-You will answer in the following format:
-[true or false], [Reason why the true or false was given citing the rules aforementioned]
-For example:
-
-User:
-Question:  'What is Jose's Job?'
-True Answer:  'He is a Software Engineer'
-AgentResponse: ''He is a Front end developer'
-
-Your answer:
-False, AgentResponse is incorrect because it suggests Jose is a Front-End developer, information which has not been explicitly added on the QA set.
-    
-"""
-        .trim();
-
-    final questionToScore = """
-User:
-Question:  $question
-True Answer:  $correctAnswer
-AgentResponse: ${agentAnswer}
-    """
-        .trim();
-
-    OpenAIChatCompletionModel chatCompletion =
-        await OpenAI.instance.chat.create(
-      // maxTokens: allocatedResponseTokens,
-      model: "gpt-3.5-turbo-16k",
-      messages: [
-        OpenAIChatCompletionChoiceMessageModel(
-          content: opening,
-          role: OpenAIChatMessageRole.system,
-        ),
-        OpenAIChatCompletionChoiceMessageModel(
-          content: questionToScore,
-          role: OpenAIChatMessageRole.user,
-        ),
-      ],
-    );
-    return chatCompletion.choices.first.message.content;
-  }
-
   Future<String?> sendPromptGPT3turbo16k(String prompt) async {
     try {
       final allocatedResponseTokens = 14000 - countStringTokens(prompt);
