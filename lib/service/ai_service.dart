@@ -1,10 +1,8 @@
 import 'dart:convert';
 import 'dart:math';
-
 import 'package:dart_openai/dart_openai.dart';
 import 'package:open_llm_studio_api/util/logging.dart';
 import 'package:llm_chat/model/llm_chat_message.dart';
-
 import 'getit_injector.dart';
 
 AiService get aiService => locate<AiService>();
@@ -27,13 +25,15 @@ class AiService {
     return tokens.length;
   }
 
-  Future<String?> sendPromptGPT3turbo16k(String prompt) async {
+  Future<String?> sendPromptGPT3turbo16k(String prompt,
+      {double? temperature}) async {
     try {
       final allocatedResponseTokens = 14000 - countStringTokens(prompt);
 
       OpenAIChatCompletionModel chatCompletion =
           await OpenAI.instance.chat.create(
         maxTokens: allocatedResponseTokens,
+        temperature: temperature ?? 0.0,
         model: "gpt-3.5-turbo-16k",
         messages: [
           OpenAIChatCompletionChoiceMessageModel(
@@ -49,9 +49,10 @@ class AiService {
     }
   }
 
-  Future<String?> chatWithGPT(
-      {String model = "gpt-3.5-turbo-16k",
-      required List<OpenAIChatCompletionChoiceMessageModel> chat}) async {
+  Future<String?> chatWithGPT({
+    String model = "gpt-3.5-turbo-16k",
+    required List<OpenAIChatCompletionChoiceMessageModel> chat,
+  }) async {
     try {
       final chatCompletion = await OpenAI.instance.chat.create(
         model: model,
@@ -187,7 +188,8 @@ class AiService {
   }
 
   Future<List<OpenAIEmbeddingsDataModel>> getOpenAiEmbeddings(
-      List<String> input) async {
+    List<String> input,
+  ) async {
     OpenAIEmbeddingsModel embeddings = await OpenAI.instance.embedding.create(
       model: "text-embedding-ada-002",
       input: input,
