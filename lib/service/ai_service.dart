@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:math';
 import 'package:dart_openai/dart_openai.dart';
+import 'package:open_llm_studio_api/model/agent.dart';
+import 'package:open_llm_studio_api/service/vectorization_service.dart';
 import 'package:open_llm_studio_api/util/logging.dart';
 import 'package:llm_chat/model/llm_chat_message.dart';
 import 'getit_injector.dart';
@@ -65,9 +67,11 @@ class AiService {
     }
   }
 
-  Future<String?> chatWithGPT16k(
-      {String model = "gpt-3.5-turbo-16k",
-      required List<LlmChatMessage> chat}) async {
+  Future<String?> chatWithGPTMessages({
+    String model = "gpt-3.5-turbo-16k",
+    double temperature = 0.0,
+    required List<LlmChatMessage> chat,
+  }) async {
     try {
       List<OpenAIChatCompletionChoiceMessageModel> messages = [];
       for (final m in chat) {
@@ -80,12 +84,58 @@ class AiService {
       final chatCompletion = await OpenAI.instance.chat.create(
         model: model,
         messages: messages,
+        temperature: temperature,
       );
+
       return chatCompletion.choices.first.message.content;
     } catch (e) {
       devLog(tag: tag, message: "Error with GPT3Turbo chat completion: $e");
       return null;
     }
+  }
+
+  Future<List<String>?> getRelevantMemories(
+      String question, Agent agent) async {
+    final relevantMemories = await vectorizationService.getRelevantMemories(
+        query: question, memoryIds: agent.longTermMemoryIds ?? []);
+    if (relevantMemories.isRight) {
+      return relevantMemories.right;
+    }
+    return null;
+  }
+
+  Future<String?> chatWithAgent(
+      {required Agent agent,
+      required List<LlmChatMessage> chatHistory,
+      String model = 'gpt-3.5-turbo',
+      double temperature = 0.0}) async {
+
+    final relevantMemories = await getRelevantMemories(
+      chatHistory.last.message ?? '',
+      agent,
+    );
+
+    devLog(tag: tag, message: 'Relevant memories are $relevantMemories');
+
+    if (relevantMemories != null) {
+      final index =
+          chatHistory.indexWhere((element) => element.type == 'system');
+      chatHistory.removeAt(index);
+      chatHistory.insert(
+        index,
+        LlmChatMessage.system(
+            message:
+                '${agent.prompt} \You know this is true: \n${relevantMemories.join(',\n')}'),
+      );
+    }
+
+    final response = await aiService.chatWithGPTMessages(
+      chat: chatHistory,
+      model: model,
+      temperature: temperature,
+    );
+
+    return response;
   }
 
   Future<Map<String, String>> generateQASet({
