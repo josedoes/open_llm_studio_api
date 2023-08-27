@@ -21,7 +21,8 @@ class BenchmarkHistoryService {
   }) async {
     devLog(tag: tag, message: 'set called');
     try {
-      final sample = BenchmarkHistory.fromJson(BenchmarkHistory.exampleJson());
+      final sample =
+          BenchmarkHistory.fromJson(BenchmarkHistory.exampleJson());
       final doc = model ?? sample;
 
       await ref.doc(doc.id).set(

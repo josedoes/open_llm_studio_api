@@ -33,7 +33,7 @@ main() {
       verify(() => service.set(model: model)).called(1);
 
       expect(createResult.right, model);
-      expect(repo.modelCache.length, 1);
+      expect(repo.benchmarkHistoryCache.length, 1);
     });
 
     test('read', () async {
@@ -59,13 +59,13 @@ main() {
       );
 
       final createResult = await repo.create(model: model);
-      expect(repo.modelCache.values.length, 1);
+      expect(repo.benchmarkHistoryCache.values.length, 1);
 
       final deleteResult = await repo.delete(model: model);
 
       verify(() => service.delete(model: model)).called(1);
 
-      expect(repo.modelCache.values.length, 0);
+      expect(repo.benchmarkHistoryCache.values.length, 0);
       expect(deleteResult.right, model);
     });
   });

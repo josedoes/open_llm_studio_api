@@ -31,7 +31,8 @@ main() {
     test('Create', () async {
       final exampleModel =
           BenchmarkHistory.fromJson(BenchmarkHistory.exampleJson());
-      final setResult = await benchmarkHistoryService.set(model: exampleModel);
+      final setResult =
+          await benchmarkHistoryService.set(model: exampleModel);
       expect(setResult.isRight, true);
       expect(setResult.right, exampleModel);
     });
@@ -39,7 +40,8 @@ main() {
     test('Read', () async {
       final exampleModel =
           BenchmarkHistory.fromJson(BenchmarkHistory.exampleJson());
-      final setResult = await benchmarkHistoryService.set(model: exampleModel);
+      final setResult =
+          await benchmarkHistoryService.set(model: exampleModel);
       expect(setResult.isRight, true);
       expect(setResult.right, exampleModel);
       final readResult =
@@ -51,7 +53,8 @@ main() {
     test('ReadAll', () async {
       final exampleModel =
           BenchmarkHistory.fromJson(BenchmarkHistory.exampleJson());
-      final setResult = await benchmarkHistoryService.set(model: exampleModel);
+      final setResult =
+          await benchmarkHistoryService.set(model: exampleModel);
       final setResult2 = await benchmarkHistoryService.set(
           model: exampleModel.copyWith(id: '123'));
       expect(setResult.isRight, true);
@@ -64,13 +67,14 @@ main() {
     test('Query', () async {
       final exampleModel =
           BenchmarkHistory.fromJson(BenchmarkHistory.exampleJson());
-      final setResult = await benchmarkHistoryService.set(model: exampleModel);
+      final setResult =
+          await benchmarkHistoryService.set(model: exampleModel);
       final setResult2 = await benchmarkHistoryService.set(
           model: exampleModel.copyWith(id: '123'));
       expect(setResult.isRight, true);
       expect(setResult.right, exampleModel);
-      final readAllResult =
-          await benchmarkHistoryService.queryContains({'id': exampleModel.id});
+      final readAllResult = await benchmarkHistoryService
+          .queryContains({'id': exampleModel.id});
       expect(readAllResult.isRight, true);
       expect(readAllResult.right.length, 1);
     });
