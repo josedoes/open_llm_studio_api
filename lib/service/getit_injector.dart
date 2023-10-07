@@ -32,7 +32,7 @@ T locate<T extends Object>() => getIt.get<T>();
 
 void register<T extends Object>(T obj) => getIt.registerSingleton<T>(obj);
 
-Future<void> setUpInjectorLocal({
+Future<void> setUpOpenLLM({
   bool testing = false,
 }) async {
   if (testing) {
@@ -75,5 +75,4 @@ Future<void> setUpInjectorLocal({
 
   register(ChatSessionModelService());
   register(ChatSessionModelRepository());
-
 }

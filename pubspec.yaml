@@ -23,6 +23,7 @@ dependencies:
     git:
       url: https://github.com/josedoes/llm_chat
       ref: master
+
   url_launcher: ^6.1.12
 
 
