@@ -107,9 +107,7 @@ class AiService {
   Future<String?> chatWithAgent(
       {required Agent agent,
       required List<LlmChatMessage> chatHistory,
-      String model = 'gpt-3.5-turbo',
       double temperature = 0.0}) async {
-
     final relevantMemories = await getRelevantMemories(
       chatHistory.last.message ?? '',
       agent,
@@ -131,7 +129,7 @@ class AiService {
 
     final response = await aiService.chatWithGPTMessages(
       chat: chatHistory,
-      model: model,
+      model: agent.preferedModel?.modelName ?? '',
       temperature: temperature,
     );
 
