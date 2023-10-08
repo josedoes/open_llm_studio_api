@@ -96,6 +96,9 @@ class AiService {
 
   Future<List<String>?> getRelevantMemories(
       String question, Agent agent) async {
+    if ((agent.longTermMemoryIds ?? []).isEmpty) {
+      return [];
+    }
     final relevantMemories = await vectorizationService.getRelevantMemories(
         query: question, memoryIds: agent.longTermMemoryIds ?? []);
     if (relevantMemories.isRight) {
