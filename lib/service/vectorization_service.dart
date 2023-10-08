@@ -28,7 +28,7 @@ class VectorizationService {
 
       embeddedSegments = embeddingResult.right;
 
-      final formatVector = _matchEmbeddingsToMetadata(
+      final formatVector = matchEmbeddingsToMetadata(
           embeddingsResult: embeddedSegments, metadata: segmentedData);
       debugPrint('$method success');
 
@@ -39,7 +39,7 @@ class VectorizationService {
     return null;
   }
 
-  Map<String, List<double>>? _matchEmbeddingsToMetadata(
+  Map<String, List<double>>? matchEmbeddingsToMetadata(
       {required List<String> metadata,
       required List<OpenAIEmbeddingsDataModel> embeddingsResult}) {
     const method = '_matchEmbeddingsToMetadata';
