@@ -84,8 +84,6 @@ class VectorizationService {
     const method = 'getSimilar';
     devLog(tag: tag, message: '$method started');
 
-    List<MapEntry<String, double>> similarityScores = [];
-
     if (agentVectors.isEmpty) {
       await loadAgentVectors(memoryIds);
     }
@@ -96,28 +94,39 @@ class VectorizationService {
       if (embeddingResult.isRight) {
         List<double> queryVector = embeddingResult.right[0].embeddings;
 
-        agentVectors.forEach((key, value) {
-          double score = cosineSimilarity(queryVector, value);
-          similarityScores.add(MapEntry(key, score));
-        });
+        List<String> similarResults = getSimilarResults(
+          queryVector,
+          agentVectors,
+          amountOfMemoriesRetrieved,
+        );
 
-        similarityScores.sort((a, b) => b.value.compareTo(a.value));
-
-        Map<String, List<double>> similarGuys = {};
-        for (int i = 0;
-            i < min(amountOfMemoriesRetrieved, similarityScores.length);
-            i++) {
-          similarGuys[similarityScores[i].key] =
-              agentVectors[similarityScores[i].key] ?? [];
-        }
-
-        return Right([...similarGuys.keys]);
+        return Right(similarResults);
       } else {
         return Left('No vectors');
       }
     } else {
       return Left('value');
     }
+  }
+
+  List<String> getSimilarResults(
+    List<double> queryVector,
+    Map<String, List<double>> vectors,
+    int numberOfResults,
+  ) {
+    List<MapEntry<String, double>> similarityScores = [];
+
+    vectors.forEach((key, value) {
+      double score = cosineSimilarity(queryVector, value);
+      similarityScores.add(MapEntry(key, score));
+    });
+
+    similarityScores.sort((a, b) => b.value.compareTo(a.value));
+
+    return similarityScores
+        .sublist(0, min(numberOfResults, similarityScores.length))
+        .map((e) => e.key)
+        .toList();
   }
 
   Future<String?> loadAgentVectors(List<String> memoryIds) async {
