@@ -21,7 +21,7 @@ class VectorizationService {
     print('$method started');
     List<OpenAIEmbeddingsDataModel> embeddedSegments = [];
 
-    final embeddingResult = await _getOpenAiEmbeddings(segmentedData);
+    final embeddingResult = await getOpenAiEmbeddings(segmentedData);
 
     if (embeddingResult.isRight) {
       print('$method _getOpenAiEmbeddings came out right');
@@ -59,7 +59,7 @@ class VectorizationService {
     }
   }
 
-  Future<Either<String, List<OpenAIEmbeddingsDataModel>>> _getOpenAiEmbeddings(
+  Future<Either<String, List<OpenAIEmbeddingsDataModel>>> getOpenAiEmbeddings(
       List<String> input) async {
     const method = '_getOpenAiEmbeddings';
     devLog(tag: tag, message: '$method started');
@@ -89,7 +89,7 @@ class VectorizationService {
     }
 
     if (agentVectors.isNotEmpty) {
-      final embeddingResult = await _getOpenAiEmbeddings([query]);
+      final embeddingResult = await getOpenAiEmbeddings([query]);
 
       if (embeddingResult.isRight) {
         List<double> queryVector = embeddingResult.right[0].embeddings;
@@ -201,10 +201,10 @@ class VectorizationService {
     }
 
     final givenAnswerResult =
-        await vectorizationService._getOpenAiEmbeddings(givenAnswers);
+        await vectorizationService.getOpenAiEmbeddings(givenAnswers);
 
     final expectedAnswerResult =
-        await vectorizationService._getOpenAiEmbeddings(expectedAnswers);
+        await vectorizationService.getOpenAiEmbeddings(expectedAnswers);
 
     if (givenAnswerResult.isRight && expectedAnswerResult.isRight) {
       List<OpenAIEmbeddingsDataModel> givenAnswerEmbeddings =
