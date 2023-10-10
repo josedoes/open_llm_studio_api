@@ -18,7 +18,7 @@ class CloudStorageService {
     try {
       await _storage.ref(destinationPath).putFile(file);
     } on FirebaseException catch (e) {
-      print(e);
+      // //print(e);
     }
   }
 
@@ -28,7 +28,7 @@ class CloudStorageService {
           .ref(destinationPath)
           .putString(data, format: PutStringFormat.raw);
     } on FirebaseException catch (e) {
-      print(e);
+      //print(e);
     }
   }
 
@@ -36,7 +36,7 @@ class CloudStorageService {
     try {
       await _storage.ref(destinationPath).putData(data);
     } on FirebaseException catch (e) {
-      print(e);
+      //print(e);
     }
   }
 
@@ -44,7 +44,7 @@ class CloudStorageService {
     try {
       return await _storage.ref(filePath).getDownloadURL();
     } on FirebaseException catch (e) {
-      print(e);
+      //print(e);
       return null;
     }
   }
@@ -53,13 +53,13 @@ class CloudStorageService {
     final task = _storage.ref(destinationPath).putFile(file);
 
     bool paused = await task.pause();
-    print('paused, $paused');
+    //print('paused, $paused');
 
     bool resumed = await task.resume();
-    print('resumed, $resumed');
+    //print('resumed, $resumed');
 
     bool canceled = await task.cancel();
-    print('canceled, $canceled');
+    //print('canceled, $canceled');
   }
 
   void monitorUploadProgress(File file, String destinationPath) {
@@ -70,19 +70,19 @@ class CloudStorageService {
         case TaskState.running:
           final progress =
               100.0 * (taskSnapshot.bytesTransferred / taskSnapshot.totalBytes);
-          print("Upload is $progress% complete.");
+          //print("Upload is $progress% complete.");
           break;
         case TaskState.paused:
-          print("Upload is paused.");
+          //print("Upload is paused.");
           break;
         case TaskState.canceled:
-          print("Upload was canceled");
+          //print("Upload was canceled");
           break;
         case TaskState.error:
-          print("An error occurred while uploading");
+          //print("An error occurred while uploading");
           break;
         case TaskState.success:
-          print("Upload was successful");
+          //print("Upload was successful");
           break;
       }
     });
@@ -107,7 +107,7 @@ class CloudStorageService {
         return content;
       }
     } on FirebaseException catch (e) {
-      print(e.message);
+      //print(e.message);
       return null;
     }
     return null;
@@ -120,9 +120,9 @@ class CloudStorageService {
 
       // Delete the file
       await ref.delete();
-      print('File deleted successfully');
+      //print('File deleted successfully');
     } on FirebaseException catch (e) {
-      print(e.message); // You can handle the error as required
+      //print(e.message); // You can handle the error as required
     }
   }
 
@@ -154,7 +154,7 @@ class CloudStorageService {
 //     await downloadTask.whenComplete(() => {});
 //     return file;
 //   } on FirebaseException catch (e) {
-//     print(e.message); // You can handle the error as required
+//     //print(e.message); // You can handle the error as required
 //     return null;
 //   }
 // }

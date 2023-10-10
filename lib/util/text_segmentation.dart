@@ -13,23 +13,23 @@ Future<List<String>> segmentText({
   required String text,
   required int? wordCount,
 }) async {
-  print('segmentText starting');
+  //print('segmentText starting');
   List<String> segmentedData = [];
   if (useAi) {
     segmentedData = await _segmentWithAi(segmentBy, text);
   } else {
     segmentedData = _segmentWithRejex(segmentBy, text, wordCount);
   }
-  print('segmentText returning these list items');
+  //print('segmentText returning these list items');
   for (final i in segmentedData) {
-    print(i);
+    //print(i);
   }
 
   return segmentedData;
 }
 
 Future<List<String>> _segmentWithAi(String segmentBy, text) async {
-  print('_segmentWithAi started');
+  //print('_segmentWithAi started');
   List<String> segmentedData = [];
   String prompt = '';
 
@@ -47,15 +47,15 @@ $text""";
 $text""";
   }
 
-  print('prompt $prompt');
+  //print('prompt $prompt');
   final response = await aiService.sendPromptGPT3turbo16k(prompt);
-  print("response $response");
+  //print("response $response");
   if (response != null) {
     try {
       segmentedData = stringToList(response);
       return segmentedData;
     } catch (e) {
-      print('exception in _segmentWithAi $e');
+      //print('exception in _segmentWithAi $e');
       segmentedData = stringToList(response);
     }
   }
@@ -84,7 +84,7 @@ List<String> _splitIntoWords(String text, int wordsPerChonk) {
   }
 
   for (final i in result) {
-    print(i);
+    //print(i);
   }
 
   return result;
@@ -151,7 +151,7 @@ List<String> stringToList(String str) {
     List<dynamic> decodedList = jsonDecode(str);
     return decodedList.map((item) => item.toString()).toList();
   } catch (e) {
-    print("Error: $e");
+    //print("Error: $e");
     return [];
   }
 }

@@ -6,9 +6,9 @@ void devLog({
   required String message,
 }) {
   if (kDebugMode) {
-    print('$tag $message');
+    //print('$tag $message');
   } else {
-    print('$tag $message');
+    //print('$tag $message');
   }
 }
 
@@ -19,8 +19,8 @@ void errorLog({
 }) {
   // dataDogService.logError(tag: tag, message: message, stackTrace: stackTrace);
   if (kDebugMode) {
-    print('ERROR IN $tag: $message');
+    //print('ERROR IN $tag: $message');
   } else {
-    print('ERROR IN $tag: $message');
+    //print('ERROR IN $tag: $message');
   }
 }

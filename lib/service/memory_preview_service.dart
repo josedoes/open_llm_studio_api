@@ -33,7 +33,7 @@ class MemoryPreviewService {
 
       return Right(preview);
     } catch (e) {
-      print('$tag $e');
+      //print('$tag $e');
       return const Left('error');
     }
   }
@@ -68,7 +68,7 @@ class MemoryPreviewService {
 
       return Right(parsedList);
     } catch (e) {
-      print('$tag $e');
+      //print('$tag $e');
       return Left('Error');
     }
   }
@@ -84,7 +84,7 @@ class MemoryPreviewService {
 
       return const Right('success');
     } catch (e) {
-      print('$tag $e');
+      //print('$tag $e');
       return const Left('error');
     }
   }

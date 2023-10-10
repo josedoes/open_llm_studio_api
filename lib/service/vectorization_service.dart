@@ -18,13 +18,13 @@ class VectorizationService {
   Future<Map<String, List<double>>?> vectorizeSegments(
       List<String> segmentedData) async {
     const method = 'vectorizeSegments';
-    print('$method started');
+    //print('$method started');
     List<OpenAIEmbeddingsDataModel> embeddedSegments = [];
 
     final embeddingResult = await getOpenAiEmbeddings(segmentedData);
 
     if (embeddingResult.isRight) {
-      print('$method _getOpenAiEmbeddings came out right');
+      //print('$method _getOpenAiEmbeddings came out right');
 
       embeddedSegments = embeddingResult.right;
 
@@ -34,7 +34,7 @@ class VectorizationService {
 
       return formatVector;
     }
-    print('$method returned null');
+    //print('$method returned null');
 
     return null;
   }

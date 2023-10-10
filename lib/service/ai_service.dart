@@ -46,7 +46,7 @@ class AiService {
       );
       return chatCompletion.choices.first.message.content;
     } catch (e) {
-      print("Error with GPT3Turbo chat completion: $e");
+      // //print("Error with GPT3Turbo chat completion: $e");
       return null;
     }
   }
@@ -184,7 +184,7 @@ class AiService {
         return {};
       }
     } catch (e) {
-      print('error $e');
+      // //print('error $e');
     }
     return {};
   }

@@ -27,7 +27,7 @@ class LongTermMemoryService {
 
       return Right(model);
     } catch (e) {
-      print('$tag $e');
+      //print('$tag $e');
       return const Left('error');
     }
   }
@@ -45,11 +45,11 @@ class LongTermMemoryService {
 
         return Right(memory);
       } else {
-        print('$tag read came out null');
+        //print('$tag read came out null');
         return Left('error');
       }
     } catch (e) {
-      print('$tag $e');
+      //print('$tag $e');
       return Left('error');
     }
   }
@@ -67,7 +67,7 @@ class LongTermMemoryService {
       }
       return Right(memories);
     } catch (e) {
-      print('$tag $e');
+      //print('$tag $e');
       return Left('error');
     }
   }
@@ -79,7 +79,7 @@ class LongTermMemoryService {
     try {
       json.decode(jsonData);
     } catch (e) {
-      print("Invalid JSON format");
+      //print("Invalid JSON format");
       return null;
     }
 
@@ -96,7 +96,7 @@ class LongTermMemoryService {
 
       return const Right('success');
     } catch (e) {
-      print('$tag $e');
+      //print('$tag $e');
       return const Left('error');
     }
   }
