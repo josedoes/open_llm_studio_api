@@ -16,7 +16,7 @@ dependencies:
   either_dart: ^1.0.0
   firebase_database: ^10.2.3
   uuid: ^3.0.7
-  dart_openai: ^4.0.0
+  dart_openai: 4.0.0
   cloud_firestore: ^4.8.3
 
   llm_chat:
