@@ -119,8 +119,12 @@ class AiService {
     devLog(tag: tag, message: 'Relevant memories are $relevantMemories');
 
     if (relevantMemories != null) {
-      final index =
-          chatHistory.indexWhere((element) => element.type == 'system');
+      var index = chatHistory.indexWhere((element) => element.type == 'system');
+
+      if (index == -1) {
+        chatHistory.insert(0, LlmChatMessage.system(message: ''));
+      }
+
       chatHistory.removeAt(index);
       chatHistory.insert(
         index,
