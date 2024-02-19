@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dart_openai/dart_openai.dart';
 import 'package:get_it/get_it.dart';
 import 'package:open_llm_studio_api/repository/agent_repository.dart';
 import 'package:open_llm_studio_api/repository/benchmark_history_repository.dart';
@@ -34,7 +35,10 @@ void register<T extends Object>(T obj) => getIt.registerSingleton<T>(obj);
 
 Future<void> setUpOpenLLM({
   bool testing = false,
+  required String openAiKey,
 }) async {
+  OpenAI.apiKey = openAiKey;
+
   if (testing) {
     getIt = GetIt.asNewInstance();
   }
