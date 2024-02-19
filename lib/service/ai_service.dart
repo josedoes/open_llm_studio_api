@@ -122,6 +122,7 @@ class AiService {
       var index = chatHistory.indexWhere((element) => element.type == 'system');
 
       if (index == -1) {
+        index = 0;
         chatHistory.insert(0, LlmChatMessage.system(message: ''));
       }
 
